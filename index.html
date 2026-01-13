@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Headshot Config Generator</title>
+<style>
+body{margin:0;min-height:100vh;display:flex;justify-content:center;align-items:center;background:linear-gradient(135deg,#020617,#0f172a);color:white;font-family:Arial;}
+.card{width:100%;max-width:450px;background:rgba(255,255,255,0.07);backdrop-filter:blur(14px);border-radius:22px;padding:28px;box-shadow:0 30px 60px rgba(0,0,0,.5);margin:16px;text-align:center;}
+select,button{width:100%;padding:14px;margin-top:12px;border-radius:12px;border:none;font-size:15px;}
+select{background:#020617;color:white;border:1px solid #1e293b;}
+button{background:#22c55e;color:black;font-weight:800;cursor:pointer;}
+button:hover{opacity:.9;}
+</style>
+</head>
+<body>
+<div class="card">
+<h2>🎯 Headshot Config Generator</h2>
+
+<select id="device" onchange="updateBrand()">
+<option value="">📱 Select Device Type</option>
+<option value="low">Low-end Mobile</option>
+<option value="mid">Mid-range Mobile</option>
+<option value="high">High-end / 90Hz+</option>
+</select>
+
+<select id="brand" onchange="updateModel()">
+<option value="">📲 Select Brand</option>
+</select>
+
+<select id="model">
+<option value="">📟 Select Model</option>
+</select>
+
+<select id="style">
+<option value="">🎮 Play Style</option>
+<option value="rush">Rush Player</option>
+<option value="balanced">Balanced</option>
+<option value="passive">Passive / Long Range</option>
+</select>
+
+<button onclick="generate()">Generate Config</button>
+</div>
+
+<script>
+// Device / Brand / Model data
+const brands = {low:["Samsung","Xiaomi","Realme"], mid:["Samsung","Xiaomi","Realme","Oppo"], high:["Samsung","Apple","OnePlus"]};
+const models = {
+"Samsung":["M11","M13","A12","A32"],"Xiaomi":["Redmi 9","Redmi 10","Poco X3"],
+"Realme":["C21","C25","Narzo 50"],"Oppo":["A15","F19"],"Apple":["iPhone SE","iPhone 11"],"OnePlus":["Nord N10","Nord 2"]
+};
+function updateBrand(){
+  const d=document.getElementById("device").value;
+  const brandSelect=document.getElementById("brand");
+  brandSelect.innerHTML='<option value="">📲 Select Brand</option>';
+  if(d && brands[d]) brands[d].forEach(b=>brandSelect.innerHTML+=`<option value="${b}">${b}</option>`);
+  updateModel();
+}
+function updateModel(){
+  const b=document.getElementById("brand").value;
+  const modelSelect=document.getElementById("model");
+  modelSelect.innerHTML='<option value="">📟 Select Model</option>';
+  if(b && models[b]) models[b].forEach(m=>modelSelect.innerHTML+=`<option value="${m}">${m}</option>`);
+}
+function generate(){
+  const d=document.getElementById("device").value;
+  const b=document.getElementById("brand").value;
+  const m=document.getElementById("model").value;
+  const s=document.getElementById("style").value;
+  if(!d||!b||!m||!s){alert("⚠️ Select all options!"); return;}
+  // Pass data to result.html
+  const params = new URLSearchParams({device:d,brand:b,model:m,style:s});
+  window.open('result.html?'+params.toString(),'_blank');
+}
+</script>
+</body>
+</html>
