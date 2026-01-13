@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Headshot Config Result</title>
+<style>
+body{margin:0;min-height:100vh;display:flex;justify-content:center;align-items:center;background:linear-gradient(135deg,#0f172a,#020617);color:white;font-family:Arial;}
+.card{width:100%;max-width:500px;background:rgba(255,255,255,0.07);backdrop-filter:blur(14px);border-radius:22px;padding:28px;box-shadow:0 30px 60px rgba(0,0,0,.5);margin:16px;text-align:center;}
+.device-img{width:120px;height:auto;margin-bottom:12px;border-radius:12px;}
+.badge{display:inline-block;background:#22c55e;color:black;padding:4px 10px;border-radius:999px;font-size:12px;margin-bottom:10px;}
+.small{font-size:12px;color:#94a3b8;margin-top:8px;}
+</style>
+</head>
+<body>
+<div class="card" id="out"></div>
+
+<script>
+// Device photos
+const devicePhotos = {
+  "M11":"https://i.imgur.com/8b9d1Fv.png","M13":"https://i.imgur.com/8b9d1Fv.png",
+  "A12":"https://i.imgur.com/8b9d1Fv.png","A32":"https://i.imgur.com/8b9d1Fv.png",
+  "Redmi 9":"https://i.imgur.com/NdYlYwK.png","Redmi 10":"https://i.imgur.com/NdYlYwK.png",
+  "Poco X3":"https://i.imgur.com/NdYlYwK.png","C21":"https://i.imgur.com/l0K7PcS.png",
+  "C25":"https://i.imgur.com/l0K7PcS.png","Narzo 50":"https://i.imgur.com/l0K7PcS.png",
+  "A15":"https://i.imgur.com/7vF1mQO.png","F19":"https://i.imgur.com/7vF1mQO.png",
+  "iPhone SE":"https://i.imgur.com/2ZwY9Vc.png","iPhone 11":"https://i.imgur.com/2ZwY9Vc.png",
+  "Nord N10":"https://i.imgur.com/3bX9tIv.png","Nord 2":"https://i.imgur.com/3bX9tIv.png"
+};
+
+const params = new URLSearchParams(window.location.search);
+const d=params.get('device');
+const b=params.get('brand');
+const m=params.get('model');
+const s=params.get('style');
+
+let config={general:90,red:85,two:75,four:60,awm:45,fire:55};
+if(d==="low") config.general+=5;
+if(d==="high") config.general-=5;
+if(s==="rush") config.red+=5;
+if(s==="passive") config.four+=5;
+
+const emojis=["🔥","💥","🎯","😎","⚡"];
+const randEmoji=emojis[Math.floor(Math.random()*emojis.length)];
+const img=devicePhotos[m]||"";
+
+document.getElementById("out").innerHTML=`
+  <div class="badge">SAFE GUIDE ${randEmoji}</div>
+  ${img?`<img src="${img}" class="device-img">`:''}
+  <b>${b} ${m} – ${s.toUpperCase()}</b><br><br>
+  🎯 General: ${config.general}<br>
+  🔴 Red Dot: ${config.red}<br>
+  🔍 2x Scope: ${config.two}<br>
+  🔭 4x Scope: ${config.four}<br>
+  🎯 AWM Scope: ${config.awm}<br>
+  🔥 Fire Button Size: ${config.fire}%<br>
+  <div class="small">⚠️ Safe Training Preset – fun guide only, no cheats.</div>
+`;
+</script>
+</body>
+</html>
